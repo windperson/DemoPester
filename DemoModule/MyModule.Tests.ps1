@@ -1,10 +1,12 @@
 BeforeAll {
-    Import-Module $PSScriptRoot/MyModule.psm1 -Force
+    $targetModuleFile = Join-Path -Path $PSScriptRoot -ChildPath "MyModule.psm1"
+    Write-Host "Importing module: '$targetModuleFile'"
+    Import-Module $targetModuleFile -Force
 }
 
 Describe "Get-Something" {
     Context "verify module has defined functions" {
-        BeforeAll{
+        BeforeAll {
             $moduleFunctions = (Get-Module MyModule).ExportedFunctions.Keys
         }
         It "Should have a function named Get-Something" {
