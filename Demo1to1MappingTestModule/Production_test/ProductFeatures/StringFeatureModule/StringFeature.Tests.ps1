@@ -1,10 +1,5 @@
 BeforeAll {
-    # Replace '_test' with an empty string
-    $targetModuleFilePath = $PSCommandPath -replace '_test', ''
-
-    # Replace '.Tests.ps1' with '.psm1'
-    $targetModuleFilePath = $targetModuleFilePath -replace '\.Tests\.ps1$', '.psm1'
-    Import-Module $targetModuleFilePath -Force -Verbose
+    . (Resolve-Path $PSScriptRoot\..\..\ImportModule.ps1) -TestScriptPath $PSCommandPath
 }
 
 Describe "String function declaration" {
