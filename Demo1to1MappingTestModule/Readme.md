@@ -7,8 +7,13 @@ You need to [install Pester v5.x or above](https://pester.dev/docs/introduction/
 
 ## Running the tests
 
-Simply run the following command in this directory:
+Run the `Run-Test.ps1` script in this directory, if you need to inspect the details of running, you can run the following command:
 
 ```powershell
-Invoke-Pester
+& {
+    $oldVerbosePreference = $VerbosePreference
+    $VerbosePreference = 'Continue'
+    .\Run-Test.ps1
+    $VerbosePreference = $oldVerbosePreference
+}
 ```

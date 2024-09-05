@@ -1,5 +1,5 @@
 BeforeAll {
-    . (Resolve-Path $PSScriptRoot\..\..\ImportModule.ps1) -TestScriptPath $PSCommandPath
+    . (Resolve-Path $PSScriptRoot\..\..\ImportModule.ps1) -TestScriptPath $PSCommandPath -Verbose:$VerbosePreference
 }
 
 Describe "Math function declaration" {

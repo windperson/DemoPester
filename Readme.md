@@ -6,8 +6,14 @@ You need to [install Pester v5.x or above](https://pester.dev/docs/introduction/
 
 ## Running the tests
 
-Simply run the following command in the root of the project:
+### DemoSimpleModule
+
+Simply run the following command in the **DemoSimpleModule** directory:
 
 ```powershell
 Invoke-Pester
 ```
+
+### Demo1to1MappingTestModule
+
+See the [Readme](./Demo1to1MappingTestModule/Readme.md) in the **Demo1to1MappingTestModule** directory for more details.
