@@ -2,7 +2,7 @@ BeforeAll {
     . (Resolve-Path $PSScriptRoot\..\..\ImportModule.ps1) -TestScriptPath $PSCommandPath -Verbose:$VerbosePreference
 }
 
-Describe "Math function declaration" {
+Describe "Math function declaration" -Tag "MathFeature", "FunctionDeclaration" {
     BeforeAll {
         $moduleFunctions = (Get-Module MathFeature).ExportedFunctions.Keys
     }
@@ -20,7 +20,7 @@ Describe "Math function declaration" {
     }
 }
 
-Describe "Math function feature" {
+Describe "Math function feature" -Tag "MathFeature" {
     Context "Invoke-Add" {
         It "Should return 3 when 1 and 2 are passed" {
             Invoke-Add -a 1 -b 2 | Should -Be 3

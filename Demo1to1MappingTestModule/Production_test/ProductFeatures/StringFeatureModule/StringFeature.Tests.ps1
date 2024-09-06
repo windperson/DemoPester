@@ -2,7 +2,7 @@ BeforeAll {
     . (Resolve-Path $PSScriptRoot\..\..\ImportModule.ps1) -TestScriptPath $PSCommandPath -Verbose:$VerbosePreference
 }
 
-Describe "String function declaration" {
+Describe "String function declaration" -Tag "StringFeature", "FunctionDeclaration" {
     BeforeAll {
         $moduleFunctions = (Get-Module StringFeature).ExportedFunctions.Keys
     }
@@ -14,7 +14,7 @@ Describe "String function declaration" {
     }
 }
 
-Describe "String function feature" {
+Describe "String function feature" -Tag "StringFeature" {
     Context "Invoke-Cancatenate" {
         It "Should return 'ab' when 'a' and 'b' are passed" {
             Invoke-Cancatenate -a 'a' -b 'b' | Should -Be 'ab'
