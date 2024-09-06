@@ -17,3 +17,7 @@ Invoke-Pester
 ### Demo1to1MappingTestModule
 
 See the [Readme](./Demo1to1MappingTestModule/Readme.md) in the **Demo1to1MappingTestModule** directory for more details.
+
+### MockNetworkDrive
+
+See the [Readme](./DemoTestWithMock/MockNetworkDrive/Readme.md) in the **DemoTestWithMock** directory for more details.
