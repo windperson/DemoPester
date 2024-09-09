@@ -4,19 +4,44 @@ BeforeAll {
 
 Describe "Math function declaration" -Tag "MathFeature", "FunctionDeclaration" {
     BeforeAll {
+        . (Resolve-Path $PSScriptRoot\..\..\FunctionVerify.ps1)
         $moduleFunctions = (Get-Module MathFeature).ExportedFunctions.Keys
     }
     It "Should have a function named Invoke-Add()" {
         $moduleFunctions | Should -Contain 'Invoke-Add'
+        $target = Get-Command -Name 'Invoke-Add' -CommandType Function -ErrorAction SilentlyContinue
+        $designedParamters = @{ 
+            a = 'System.Int32'
+            b = 'System.Int32' 
+        }
+        VerifyParameters $target $designedParamters
     }
     It "Should have a function named Invoke-Sub()" {
         $moduleFunctions | Should -Contain 'Invoke-Sub'
+        $target = Get-Command -Name 'Invoke-Sub' -CommandType Function -ErrorAction SilentlyContinue
+        $designedParamters = @{ 
+            a = 'System.Int32'
+            b = 'System.Int32' 
+        }
+        VerifyParameters $target $designedParamters
     }
     It "Should have a function named Invoke-Mul()" {
         $moduleFunctions | Should -Contain 'Invoke-Mul'
+        $target = Get-Command -Name 'Invoke-Mul' -CommandType Function -ErrorAction SilentlyContinue
+        $designedParamters = @{ 
+            a = 'System.Int32'
+            b = 'System.Int32' 
+        }
+        VerifyParameters $target $designedParamters
     }
     It "Should have a function named Invoke-Div()" {
         $moduleFunctions | Should -Contain 'Invoke-Div'
+        $target = Get-Command -Name 'Invoke-Div' -CommandType Function -ErrorAction SilentlyContinue
+        $designedParamters = @{ 
+            a = 'System.Int32'
+            b = 'System.Int32' 
+        }
+        VerifyParameters $target $designedParamters
     }
 }
 
