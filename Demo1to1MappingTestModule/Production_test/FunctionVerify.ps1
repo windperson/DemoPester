@@ -13,11 +13,17 @@ function VerifyParameters {
     foreach ($key in $designedParameters.Keys) {
         $parameterTable.Add($key, $designedParameters[$key])
     }
+
+    $cmdletBuiltInParameters = @('Verbose', 'Debug', 'ErrorAction', 'ErrorVariable', 'WarningAction', 'WarningVariable', 'OutBuffer', 'OutVariable', 'PipelineVariable')
     
     foreach ($parameter in $commandInfo.Parameters.Values.GetEnumerator()) {
         $parameterName = $parameter.Name
-        $parameterTable.ContainsKey($parameterName) | Should -Be $true
+        if ( $commandInfo.CmdletBinding -and $cmdletBuiltInParameters -contains $parameterName) {
+            continue
+        }
+        $parameterTable.ContainsKey($parameterName) | Should -Be $true -Because "Parameter '$parameterName' should be exist"
         $parameterType = $parameter.ParameterType.FullName
-        $parameterType | Should -Be $parameterType
+        $expectedType = $parameterTable[$parameterName]
+        $parameterType | Should -Be $expectedType -Because "Parameter '$parameterName' should be of type '$expectedType'"
     }
 }
