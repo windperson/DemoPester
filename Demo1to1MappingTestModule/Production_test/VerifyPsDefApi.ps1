@@ -9,10 +9,10 @@ function VerifyApiDefinition {
     )
 
     Process {
-        if($null -eq $CommandType) {
+        if ($null -eq $CommandType) {
             $targetExists = VerifyApiType -Name $Name
         }
-        else{
+        else {
             $targetExists = VerifyApiType -Name $Name -CommandType $CommandType
         }
         VerifyApiInputParameters $targetExists $Inputs
@@ -54,7 +54,7 @@ function VerifyApiInputParameters {
         $parameterTable.Add($key, $designedParameters[$key])
     }
 
-    $cmdletBuiltInParameters = @('Verbose', 'Debug', 'ErrorAction', 'ErrorVariable', 'WarningAction', 'WarningVariable', 'OutBuffer', 'OutVariable', 'PipelineVariable')
+    $cmdletBuiltInParameters = @('Verbose', 'Debug', 'ErrorAction', 'ErrorVariable', 'InformationAction', 'InformationVariable', 'WarningAction', 'WarningVariable', 'OutBuffer', 'OutVariable', 'PipelineVariable', 'ProgressAction')
     
     foreach ($parameter in $commandInfo.Parameters.Values.GetEnumerator()) {
         $parameterName = $parameter.Name

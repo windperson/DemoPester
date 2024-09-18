@@ -27,14 +27,14 @@ Describe "String function declaration" -Tag "StringFeature", "FunctionDeclaratio
         . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1) 
     }
 
-    It "Should have APIs defined in ApiDefinition" -ForEach $ApiDefinition {
+    It "Should have API `'<Name>`' defined in ApiDefinition" -ForEach $ApiDefinition {
         VerifyApiDefinition -Name $Name -CommandType $CommandType
     }
 
 }
 
 Describe "String function feature" -Tag "StringFeature" {
-    Context "Invoke-Cancatenate" {
+    Context "Invoke-Concatenate" {
         It "Should return 'ab' when 'a' and 'b' are passed" {
             Invoke-Concatenate -a 'a' -b 'b' | Should -Be 'ab'
         }

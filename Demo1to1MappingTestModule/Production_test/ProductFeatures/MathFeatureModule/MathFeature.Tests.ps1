@@ -47,7 +47,7 @@ Describe "Math function API declaration" -Tag "MathFeature", "FunctionDeclaratio
         . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1) 
     }
 
-    It "Should have APIs defined in ApiDefinition" -ForEach $ApiDefinition {
+    It "Should have API `'<Name>`' defined in ApiDefinition" -ForEach $ApiDefinition {
         VerifyApiDefinition -Name $Name -CommandType $CommandType 
     }
 }

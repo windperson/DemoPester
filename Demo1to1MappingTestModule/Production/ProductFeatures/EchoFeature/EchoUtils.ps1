@@ -1,4 +1,5 @@
 function Show-Message {
+    [CmdletBinding()]
     param (
         [string] $Message
     )
@@ -7,6 +8,7 @@ function Show-Message {
 }
 
 function Show-MessageWithPrefix {
+    [CmdletBinding()]
     param (
         [string] $Message,
         [string] $Prefix
