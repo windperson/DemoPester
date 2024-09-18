@@ -2,7 +2,8 @@
     .SYNOPSIS
     This function concatenates two strings.
 #>
-function Invoke-Cancatenate {
+function Invoke-Concatenate {
+    [OutputType([string])]
     param (
         [string]$a,
         [string]$b
@@ -16,6 +17,7 @@ function Invoke-Cancatenate {
     This function reverses a string.
 #>
 function Invoke-Reverse {
+    [OutputType([string])]
     param (
         [string]$aString
     )
@@ -26,5 +28,5 @@ function Invoke-Reverse {
     return -join $sourceCharArray 
 }
 
-Export-ModuleMember -Function Invoke-Cancatenate
+Export-ModuleMember -Function Invoke-Concatenate
 Export-ModuleMember -Function Invoke-Reverse

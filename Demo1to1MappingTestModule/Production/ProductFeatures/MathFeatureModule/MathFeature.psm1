@@ -4,6 +4,7 @@
 
 #>
 function Invoke-Add {
+    [OutputType([int])]
     param (
         [int]$a,
         [int]$b
@@ -17,6 +18,7 @@ function Invoke-Add {
     This function subtracts two numbers.
 #>
 function Invoke-Sub {
+    [OutputType([int])]
     param (
         [int]$a,
         [int]$b
@@ -30,6 +32,7 @@ function Invoke-Sub {
     This function multiplies two numbers.
 #>
 function Invoke-Mul {
+    [OutputType([int])]
     param (
         [int]$a,
         [int]$b
@@ -44,6 +47,7 @@ function Invoke-Mul {
     This function divides two numbers.
 #>
 function Invoke-Div {
+    [OutputType([int])]
     param (
         [int]$a,
         [int]$b

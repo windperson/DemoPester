@@ -1,35 +1,42 @@
 BeforeAll {
-    . (Resolve-Path $PSScriptRoot\..\..\ImportModule.ps1) -TestScriptPath $PSCommandPath -Verbose:$VerbosePreference
+    $UtiltiyModulePath = "$PSScriptRoot\..\..\"
+    . (Resolve-Path $UtiltiyModulePath\ImportModule.ps1) -TestScriptPath $PSCommandPath -Verbose:$VerbosePreference
 }
 
 Describe "String function declaration" -Tag "StringFeature", "FunctionDeclaration" {
+    BeforeDiscovery {
+        $ApiDefinition = @(
+            @{
+                Name    = 'Invoke-Concatenate'
+                Inputs  = @{
+                    a = [string]
+                    b = [string]
+                }
+                Outputs = @([string])
+            }
+            @{
+                Name    = 'Invoke-Reverse'
+                Inputs  = @{
+                    aString = [string]
+                }
+                Outputs = @([string])
+            }
+        )
+    }
     BeforeAll {
-        . (Resolve-Path $PSScriptRoot\..\..\FunctionVerify.ps1)
-        $moduleFunctions = (Get-Module StringFeature).ExportedFunctions.Keys
+        . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1) 
     }
-    It "Should have a function named Invoke-Cancatenate()" {
-        $moduleFunctions | Should -Contain 'Invoke-Cancatenate'
-        $target = Get-Command -Name 'Invoke-Cancatenate' -CommandType Function -ErrorAction SilentlyContinue
-        $designedParamters = @{ 
-            a = 'System.String'
-            b = 'System.String' 
-        }
-        VerifyParameters $target $designedParamters
+
+    It "Should have APIs defined in ApiDefinition" -ForEach $ApiDefinition {
+        VerifyApiDefinition -Name $Name -CommandType $CommandType
     }
-    It "Should have a function named Invoke-Reverse()" {
-        $moduleFunctions | Should -Contain 'Invoke-Reverse'
-        $target = Get-Command -Name 'Invoke-Reverse' -CommandType Function -ErrorAction SilentlyContinue
-        $designedParamters = @{ 
-            aString = 'System.String'
-        }
-        VerifyParameters $target $designedParamters
-    }
+
 }
 
 Describe "String function feature" -Tag "StringFeature" {
     Context "Invoke-Cancatenate" {
         It "Should return 'ab' when 'a' and 'b' are passed" {
-            Invoke-Cancatenate -a 'a' -b 'b' | Should -Be 'ab'
+            Invoke-Concatenate -a 'a' -b 'b' | Should -Be 'ab'
         }
     }
 

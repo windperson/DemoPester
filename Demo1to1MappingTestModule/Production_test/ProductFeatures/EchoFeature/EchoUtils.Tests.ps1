@@ -1,31 +1,36 @@
 BeforeAll {
-    . (Resolve-Path $PSScriptRoot\..\..\ImportModule.ps1) -TestScriptPath $PSCommandPath -PsFileExtension 'ps1' -Verbose:$VerbosePreference
+    $UtiltiyModulePath = "$PSScriptRoot\..\..\"
+    . (Resolve-Path $UtiltiyModulePath\ImportModule.ps1) -TestScriptPath $PSCommandPath -PsFileExtension 'ps1' -Verbose:$VerbosePreference
 }
 
-Describe "Echo function declaration" -Tag "Echofeature", "FunctionDeclaration" {
+Describe "Echo function API declaration" -Tag "EchoFeature", "FunctionDeclaration" {
+    BeforeDiscovery {
+        $ApiDefinition = @(
+            @{
+                Name        = 'Show-Message'
+                CommandType = [System.Management.Automation.CommandTypes]::Function;
+                Inputs      = @{
+                    Message = [string]
+                }
+                Outputs     = @() # No strictly specified output type for this function
+            }
+            @{
+                Name        = 'Show-MessageWithPrefix';
+                # CommandType = [System.Management.Automation.CommandTypes]::Function; # Default value is Function
+                Inputs      = @{
+                    Message = [string]
+                    Prefix  = [string]
+                }
+                # Outputs     = @() # If no strictly specified output type it can be omitted
+            }
+        )
+    }
     BeforeAll {
-        . (Resolve-Path $PSScriptRoot\..\..\FunctionVerify.ps1) 
+        . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1) 
     }
-    It "Should have a function named Show-Message()" {
-        $targetExists = Get-Command -Name 'Show-Message' -CommandType Function -ErrorAction SilentlyContinue
-        $targetExists | Should -Not -BeNullOrEmpty
 
-        $designedParamters = @{ 
-            Message = 'System.String'
-         }
-
-        VerifyParameters $targetExists $designedParamters
-    }
-    It "Should have a function named Show-MessageWithPrefix()" {
-        $targetExists = Get-Command -Name 'Show-MessageWithPrefix' -CommandType Function -ErrorAction SilentlyContinue
-        $targetExists | Should -Not -BeNullOrEmpty
-
-        $designedParamters = @{ 
-            Message = 'System.String'
-            Prefix  = 'System.String' 
-        }
-
-        VerifyParameters $targetExists $designedParamters
+    It "Should have APIs defined in ApiDefinition" -ForEach $ApiDefinition {
+        VerifyApiDefinition -Name $Name -CommandType $CommandType 
     }
 }
 

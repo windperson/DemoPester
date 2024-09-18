@@ -1,47 +1,54 @@
 BeforeAll {
-    . (Resolve-Path $PSScriptRoot\..\..\ImportModule.ps1) -TestScriptPath $PSCommandPath -Verbose:$VerbosePreference
+    $UtiltiyModulePath = "$PSScriptRoot\..\..\"
+    . (Resolve-Path $UtiltiyModulePath\ImportModule.ps1) -TestScriptPath $PSCommandPath -Verbose:$VerbosePreference
 }
 
-Describe "Math function declaration" -Tag "MathFeature", "FunctionDeclaration" {
+Describe "Math function API declaration" -Tag "MathFeature", "FunctionDeclaration" {
+    BeforeDiscovery {
+        $ApiDefinition = @(
+            @{
+                Name    = 'Invoke-Add'
+                Inputs  = @{
+                    a = [int]
+                    b = [int]
+                }
+                Outputs = @([int])
+            }
+
+            @{
+                Name    = 'Invoke-Sub'
+                Inputs  = @{
+                    a = [int]
+                    b = [int]
+                }
+                Outputs = @([int])
+            }
+
+            @{
+                Name    = 'Invoke-Mul'
+                Inputs  = @{
+                    a = [int]
+                    b = [int]
+                }
+                Outputs = @([int])
+            }
+
+            @{
+                Name    = 'Invoke-Div'
+                Inputs  = @{
+                    a = [int]
+                    b = [int]
+                }
+                Outputs = @([int])
+            }
+        )
+    }
     BeforeAll {
-        . (Resolve-Path $PSScriptRoot\..\..\FunctionVerify.ps1)
-        $moduleFunctions = (Get-Module MathFeature).ExportedFunctions.Keys
+        . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1) 
     }
-    It "Should have a function named Invoke-Add()" {
-        $moduleFunctions | Should -Contain 'Invoke-Add'
-        $target = Get-Command -Name 'Invoke-Add' -CommandType Function -ErrorAction SilentlyContinue
-        $designedParamters = @{ 
-            a = 'System.Int32'
-            b = 'System.Int32' 
-        }
-        VerifyParameters $target $designedParamters
-    }
-    It "Should have a function named Invoke-Sub()" {
-        $moduleFunctions | Should -Contain 'Invoke-Sub'
-        $target = Get-Command -Name 'Invoke-Sub' -CommandType Function -ErrorAction SilentlyContinue
-        $designedParamters = @{ 
-            a = 'System.Int32'
-            b = 'System.Int32' 
-        }
-        VerifyParameters $target $designedParamters
-    }
-    It "Should have a function named Invoke-Mul()" {
-        $moduleFunctions | Should -Contain 'Invoke-Mul'
-        $target = Get-Command -Name 'Invoke-Mul' -CommandType Function -ErrorAction SilentlyContinue
-        $designedParamters = @{ 
-            a = 'System.Int32'
-            b = 'System.Int32' 
-        }
-        VerifyParameters $target $designedParamters
-    }
-    It "Should have a function named Invoke-Div()" {
-        $moduleFunctions | Should -Contain 'Invoke-Div'
-        $target = Get-Command -Name 'Invoke-Div' -CommandType Function -ErrorAction SilentlyContinue
-        $designedParamters = @{ 
-            a = 'System.Int32'
-            b = 'System.Int32' 
-        }
-        VerifyParameters $target $designedParamters
+
+    It "Should have APIs defined in ApiDefinition" -ForEach $ApiDefinition {
+        VerifyApiDefinition -Name $Name -CommandType $CommandType 
     }
 }
 
