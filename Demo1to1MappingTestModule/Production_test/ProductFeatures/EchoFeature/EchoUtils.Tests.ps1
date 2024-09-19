@@ -15,6 +15,14 @@ Describe "Echo function API declaration" -Tag "EchoFeature", "FunctionDeclaratio
                 Outputs     = @() # No strictly specified output type for this function
             }
             @{
+                Name        = 'Show-TimeStampedMessage'
+                CommandType = [System.Management.Automation.CommandTypes]::Function;
+                Inputs      = @{
+                    Message = [string]
+                }
+                Outputs     = @([System.Void]) # This function does not return anything
+            }
+            @{
                 Name        = 'Show-MessageWithPrefix';
                 # CommandType = [System.Management.Automation.CommandTypes]::Function; # Default value is Function
                 Inputs      = @{

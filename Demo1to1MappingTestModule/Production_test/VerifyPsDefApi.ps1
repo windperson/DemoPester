@@ -87,7 +87,7 @@ function VerifyApiOutputParameters {
         return
     }
 
-    $actualOutputTypeNames = @()
+    [string[]]$actualOutputTypeNames = @()
     foreach ($actualType in $commandInfo.OutputType) {
         $actualOutputTypeNames += $actualType.Type.FullName
     }
