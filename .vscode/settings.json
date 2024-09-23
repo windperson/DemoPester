@@ -1,0 +1,12 @@
+{
+    "switch.sourceFilePattern": "{baseName}.ps1",
+    "switch.sourcePath": "Demo1to1MappingTestModule/Production/",
+    "switch.testFilePattern": "{baseName}.Tests.ps1",
+    "switch.testFileTemplate": [
+        "BeforeAll {",
+        "$UtiltiyModulePath = \"$PSScriptRoot\\..\\..\\\"",
+        "    . (Resolve-Path $UtiltiyModulePath\\ImportModule.ps1) -TestScriptPath $PSCommandPath -PsFileExtension 'ps1' -Verbose:$VerbosePreference",
+        "}"
+    ],
+    "switch.testPath": "Demo1to1MappingTestModule/Production_test/"
+}
