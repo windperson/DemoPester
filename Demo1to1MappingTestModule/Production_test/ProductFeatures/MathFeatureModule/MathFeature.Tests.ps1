@@ -5,6 +5,7 @@ BeforeAll {
 
 Describe "Math function API declaration" -Tag "MathFeature", "FunctionDeclaration" {
     BeforeDiscovery {
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Used in Pester Data driven tests')]
         $ApiDefinition = @(
             @{
                 Name    = 'Invoke-Add'
@@ -44,11 +45,11 @@ Describe "Math function API declaration" -Tag "MathFeature", "FunctionDeclaratio
         )
     }
     BeforeAll {
-        . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1) 
+        . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1)
     }
 
     It "Should have API `'<Name>`' defined in ApiDefinition" -ForEach $ApiDefinition {
-        VerifyApiDefinition -Name $Name -CommandType $CommandType 
+        VerifyApiDefinition -Name $Name -CommandType $CommandType
     }
 }
 

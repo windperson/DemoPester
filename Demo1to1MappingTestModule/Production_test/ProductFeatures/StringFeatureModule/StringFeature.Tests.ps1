@@ -5,6 +5,7 @@ BeforeAll {
 
 Describe "String function declaration" -Tag "StringFeature", "FunctionDeclaration" {
     BeforeDiscovery {
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Used in Pester Data driven tests')]
         $ApiDefinition = @(
             @{
                 Name    = 'Invoke-Concatenate'
@@ -24,7 +25,7 @@ Describe "String function declaration" -Tag "StringFeature", "FunctionDeclaratio
         )
     }
     BeforeAll {
-        . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1) 
+        . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1)
     }
 
     It "Should have API `'<Name>`' defined in ApiDefinition" -ForEach $ApiDefinition {

@@ -5,6 +5,7 @@ BeforeAll {
 
 Describe "Echo function API declaration" -Tag "EchoFeature", "FunctionDeclaration" {
     BeforeDiscovery {
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Used in Pester Data driven tests')]
         $ApiDefinition = @(
             @{
                 Name        = 'SafelyGetType'
@@ -17,15 +18,15 @@ Describe "Echo function API declaration" -Tag "EchoFeature", "FunctionDeclaratio
         )
     }
     BeforeAll {
-        . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1) 
+        . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1)
     }
 
     It "Should have API `'<Name>`' defined in ApiDefinition" -ForEach $ApiDefinition {
-        VerifyApiDefinition -Name $Name -CommandType $CommandType 
+        VerifyApiDefinition -Name $Name -CommandType $CommandType
     }
 }
 
-Describe "SafelyGetType()" -Tag "ObjectUtils"{
+Describe "SafelyGetType()" -Tag "ObjectUtils" {
 
     It "Should return null for null input" {
         SafelyGetType $null | Should -BeNullOrEmpty
@@ -44,7 +45,7 @@ Describe "SafelyGetType()" -Tag "ObjectUtils"{
     }
 
     It "Should return type of custom PSObject input " {
-        $testInput = [PSCustomObject]@{Name = "TestName"; Value = "TestValue"}
+        $testInput = [PSCustomObject]@{Name = "TestName"; Value = "TestValue" }
         $result = SafelyGetType -obj $testInput
         $result | Should -BeExactly $testInput.GetType()
     }

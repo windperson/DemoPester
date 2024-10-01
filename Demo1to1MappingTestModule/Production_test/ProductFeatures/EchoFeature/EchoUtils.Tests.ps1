@@ -5,6 +5,7 @@ BeforeAll {
 
 Describe "Echo function API declaration" -Tag "EchoFeature", "FunctionDeclaration" {
     BeforeDiscovery {
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Used in Pester Data driven tests')]
         $ApiDefinition = @(
             @{
                 Name        = 'Show-Message'
@@ -23,9 +24,9 @@ Describe "Echo function API declaration" -Tag "EchoFeature", "FunctionDeclaratio
                 Outputs     = @([System.Void]) # This function does not return anything
             }
             @{
-                Name        = 'Show-MessageWithPrefix';
+                Name   = 'Show-MessageWithPrefix';
                 # CommandType = [System.Management.Automation.CommandTypes]::Function; # Default value is Function
-                Inputs      = @{
+                Inputs = @{
                     Message = [string]
                     Prefix  = [string]
                 }
@@ -34,11 +35,11 @@ Describe "Echo function API declaration" -Tag "EchoFeature", "FunctionDeclaratio
         )
     }
     BeforeAll {
-        . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1) 
+        . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1)
     }
 
     It "Should have API `'<Name>`' defined in ApiDefinition" -ForEach $ApiDefinition {
-        VerifyApiDefinition -Name $Name -CommandType $CommandType 
+        VerifyApiDefinition -Name $Name -CommandType $CommandType
     }
 }
 
