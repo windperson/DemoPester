@@ -22,6 +22,13 @@ Describe "String function declaration" -Tag "StringFeature", "FunctionDeclaratio
                 }
                 Outputs = @([string])
             }
+            @{
+                Name    = 'Invoke-FixedPrefix'
+                Inputs  = @{
+                    aString = [string]
+                }
+                Outputs = @([string])
+            }
         )
     }
     BeforeAll {
@@ -43,7 +50,19 @@ Describe "String function feature" -Tag "StringFeature" {
 
     Context "Invoke-Reverse" {
         It "Should return 'cba' when 'abc' is passed" {
-            Invoke-Reverse -a 'abc' | Should -Be 'cba'
+            Invoke-Reverse -aString 'abc' | Should -Be 'cba'
+        }
+    }
+}
+
+Describe "Prefix function feature" -Tag "StringFeature" {
+    Context "Override script level varaible when test 'Invoke-FisedPrefix()' function" {
+        It "should return string with mocked prefix" {
+            InModuleScope StringFeature {
+                # Demo Pester's InModuleScope feature to override $script level variable for single unit test case
+                $script:PrefixStr = "MyPrefix "
+            }
+            Invoke-FixedPrefix -aString  'abc' | Should -Be 'MyPrefix abc'
         }
     }
 }

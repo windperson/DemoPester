@@ -25,8 +25,22 @@ function Invoke-Reverse {
     # Convert the string to a character array, reverse it, and join it back into a string
     $sourceCharArray = $aString.ToCharArray()
     [System.Array]::Reverse($sourceCharArray)
-    return -join $sourceCharArray 
+    return -join $sourceCharArray
+}
+
+$script:PrefixStr = "DemoPrefix"
+
+function Invoke-FixedPrefix {
+    [OutputType([string])]
+    param (
+        [string]$aString
+    )
+
+    process{
+        return "$script:PrefixStr${aString}"
+    }
 }
 
 Export-ModuleMember -Function Invoke-Concatenate
 Export-ModuleMember -Function Invoke-Reverse
+Export-ModuleMember -Function Invoke-FixedPrefix
