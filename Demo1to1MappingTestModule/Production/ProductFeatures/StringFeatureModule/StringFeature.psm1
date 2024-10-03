@@ -31,6 +31,7 @@ function Invoke-Reverse {
 $script:PrefixStr = "DemoPrefix"
 
 function Invoke-FixedPrefix {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSProvideCommentHelp', '')]
     [OutputType([string])]
     param (
         [string]$aString
