@@ -1,3 +1,6 @@
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidGlobalVars', '', Scope='Function')]
+param()
+
 BeforeAll {
     $UtiltiyModulePath = "$PSScriptRoot\..\..\"
     . (Resolve-Path $UtiltiyModulePath\ImportModule.ps1) -TestScriptPath $PSCommandPath -Verbose:$VerbosePreference
@@ -75,6 +78,20 @@ Describe "Math function feature" -Tag "MathFeature" {
     Context "Invoke-Div" {
         It "Should return 2 when 6 and 3 are passed" {
             Invoke-Div -a 6 -b 3 | Should -Be 2
+        }
+    }
+}
+
+Describe "Math function feature" -Tag "MathFormula" {
+    Context "Calculate-Circumference" {
+        It "Should return 31.4 when input 5" {
+            InModuleScope MathFeature {
+                $Global:PI = 3.14
+            }
+            $expect = 31.4
+            $actual = Calculate-Circumference 5
+            $actual | Should -BeOfType [double]
+            [math]::Round($actual, 2) | Should -Be $([math]::Round($expect, 2))
         }
     }
 }
