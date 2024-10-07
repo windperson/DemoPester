@@ -84,13 +84,15 @@ Describe "Math function feature" -Tag "MathFeature" {
 
 Describe "Math function feature" -Tag "MathFormula" {
     Context "Calculate-Circumference" {
-        It "Should return 31.4 when input 5" {
+        It "Should return 31.40 when input 5" {
             InModuleScope MathFeature {
                 $Global:PI = 3.14
             }
             $expect = 31.4
             $actual = Calculate-Circumference 5
             $actual | Should -BeOfType [double]
+
+            # TODO: write a custom assertion to compare the double values
             [math]::Round($actual, 2) | Should -Be $([math]::Round($expect, 2))
         }
     }

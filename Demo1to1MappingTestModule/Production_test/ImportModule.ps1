@@ -1,12 +1,15 @@
 param(
     [string] $TestScriptPath,
     [string] $PsFileExtension = 'psm1',
-    [System.Management.Automation.ActionPreference] $Verbose = 'SilentlyContinue'
+    [switch] $ImportModuleNameChecking = $false,
+    [System.Management.Automation.ActionPreference] $Verbose = 'SilentlyContinue',
+    [string] $TestScriptLocationPostfix = '_test',
+    [string] $TestScriptNamePattern = '\.Tests\.ps1$'
 )
 
 # Replace '_test' with an empty string
-$targetModuleFilePath = $TestScriptPath -replace '_test', ''
+$targetModuleFilePath = $TestScriptPath -replace $TestScriptLocationPostfix, ''
 
 # Replace '.Tests.ps1' with '.psm1'
-$targetModuleFilePath = $targetModuleFilePath -replace '\.Tests\.ps1$', ".$PsfileExtension"
-Import-Module $targetModuleFilePath -Force -Verbose:$Verbose
+$targetModuleFilePath = $targetModuleFilePath -replace $TestScriptNamePattern, ".$PsfileExtension"
+Import-Module $targetModuleFilePath -Force -DisableNameChecking:$(-not $ImportModuleNameChecking) -Verbose:$Verbose
