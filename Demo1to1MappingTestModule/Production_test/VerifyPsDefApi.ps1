@@ -42,9 +42,10 @@ function VerifyApiInputParameters {
     .SYNOPSIS
     Verify if the function parameters are designed correctly.
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseLiteralInitializerForHashtable', '')]
     param(
+        [ValidateNotNull()]
         [System.Management.Automation.CommandInfo]
-        [ValidateNotNUll]
         $commandInfo,
         [System.Collections.Hashtable]$designedParameters
     )
@@ -55,7 +56,7 @@ function VerifyApiInputParameters {
     }
 
     $cmdletBuiltInParameters = @('Verbose', 'Debug', 'ErrorAction', 'ErrorVariable', 'InformationAction', 'InformationVariable', 'WarningAction', 'WarningVariable', 'OutBuffer', 'OutVariable', 'PipelineVariable', 'ProgressAction')
-    
+
     foreach ($parameter in $commandInfo.Parameters.Values.GetEnumerator()) {
         $parameterName = $parameter.Name
         if ( $commandInfo.CmdletBinding -and $cmdletBuiltInParameters -contains $parameterName) {
@@ -77,7 +78,7 @@ function VerifyApiOutputParameters {
     #>
     param(
         [System.Management.Automation.CommandInfo]
-        [ValidateNotNUll]
+        [ValidateNotNUll()]
         $commandInfo,
         [type[]]$designedParameters
     )
