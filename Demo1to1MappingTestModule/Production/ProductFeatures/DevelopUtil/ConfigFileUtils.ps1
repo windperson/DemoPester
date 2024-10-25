@@ -10,9 +10,15 @@
         throw "File not exist"
     }
 
-    $replaceStr = "$commentText`$1"
-
-    if ($PSCmdlet.ShouldProcess($filePath)) {
-        (Get-Content -Path $filePath) -replace "^(\s*$searchPattern\s*)`$", $replaceStr | Set-Content -Path $filePath
+    $Lines = (Get-Content -Path $filePath) -match "^(\s*$searchPattern\s*)`$"
+    if ($null -eq $Lines -or $Lines.Length -eq 0 ) {
+        Write-Output "No line(s) will be comment out on '$filePath' with search pattern '$searchPatter'"
+    }
+    else {
+        Write-Output "$($Lines.Length) line(s) will be comment out on $filePath"
+        $replaceStr = "$commentText`$1"
+        if ($PSCmdlet.ShouldProcess($filePath)) {
+            (Get-Content -Path $filePath) -replace "^(\s*$searchPattern\s*)`$", $replaceStr | Set-Content -Path $filePath -ErrorAction Stop
+        }
     }
 }
