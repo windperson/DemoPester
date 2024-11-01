@@ -55,7 +55,9 @@ function VerifyApiInputParameters {
         $parameterTable.Add($key, $designedParameters[$key])
     }
 
-    $cmdletBuiltInParameters = @('Verbose', 'Debug', 'ErrorAction', 'ErrorVariable', 'InformationAction', 'InformationVariable', 'WarningAction', 'WarningVariable', 'OutBuffer', 'OutVariable', 'PipelineVariable', 'ProgressAction')
+    $cmdletBuiltInParameters =
+    @('Verbose', 'Debug', 'ErrorAction', 'ErrorVariable', 'InformationAction', 'InformationVariable', 'WarningAction', 'WarningVariable', 'OutBuffer', 'OutVariable', 'PipelineVariable', 'ProgressAction',
+        'WhatIf', 'Confirm')
 
     foreach ($parameter in $commandInfo.Parameters.Values.GetEnumerator()) {
         $parameterName = $parameter.Name
