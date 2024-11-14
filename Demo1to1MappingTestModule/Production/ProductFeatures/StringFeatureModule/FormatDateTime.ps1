@@ -14,8 +14,17 @@ function CorrectInput($formatterString) {
         if ([String]::IsNullOrEmpty($formatStr)) {
             return $false
         }
-
-        return $true
+        <#
+        Check $formatterString is valid by examing if it contains any fomrat symbol character(s)
+        #>
+        $vaildFormatterSymbols = @('d', 'D', 'f', 'F', 'g', 'G', 'h', 'H', 'm', 'M', 'o', 'O', 'r', 'R', 's', 'S', 't', 'T', 'u', 'U', 'y', 'Y', 'z', 'Z')
+        $inputFormatChars = [char[]]$formatStr
+        foreach ($symbols in $vaildFormatterSymbols) {
+            if ($inputFormatChars -contains $symbols) {
+                return $true
+            }
+        }
+        return $false
     }
 
     return (IsValidFormat $formatterString)? $formatterString : 'yyyy-MM-dd HH:mm:ss'

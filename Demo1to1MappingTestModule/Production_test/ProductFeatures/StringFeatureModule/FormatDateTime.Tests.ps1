@@ -1,8 +1,4 @@
-﻿BeforeAll {
-    $UtiltiyModulePath = "$PSScriptRoot\..\..\"
-    . (Resolve-Path $UtiltiyModulePath\ImportModule.ps1) -TestScriptPath $PSCommandPath -PsFileExtension 'ps1' -Verbose:$VerbosePreference
-}
-
+﻿#Requires -Version 7
 Describe "String function declaration" -Tag "FormatDatetime", "FunctionDeclaration" {
     BeforeDiscovery {
         [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Used in Pester Data driven tests')]
@@ -22,7 +18,26 @@ Describe "String function declaration" -Tag "FormatDatetime", "FunctionDeclarati
             }
         )
     }
+
     BeforeAll {
+        <# Dummy function to let Pester know the function signature so the latter Mock can work. #>
+        function CorrectInput($formatterString) {
+            Write-Information -MessageData "--- Use dummy 'CorrectInput()' function ---" -InformationAction Continue
+            return $formatterString
+        }
+
+        Mock -CommandName CorrectInput {
+            Write-Information -MessageData "=== Use mocked 'CorrectInput()' function ===" -InformationAction Continue
+            $inputFormatter = $PesterBoundParameters['formatterString']
+            return $inputFormatter
+        }
+
+        <# Remove original dummy function since we don't need it any more. #>
+        Remove-Item Function:CorrectInput
+
+        $UtiltiyModulePath = "$PSScriptRoot\..\..\"
+        Write-Information -MessageData "Import target test .ps1 script and its CorrectInput() function should be mocked..." -InformationAction Continue
+        . (Resolve-Path $UtiltiyModulePath\ImportModule.ps1) -TestScriptPath $PSCommandPath -PsFileExtension 'ps1' -Verbose:$VerbosePreference
         . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1)
     }
 
@@ -33,19 +48,23 @@ Describe "String function declaration" -Tag "FormatDatetime", "FunctionDeclarati
     It "Should have default formatter `$formatter = 'yyyy-MM-dd HH:mm:ss'" {
         Remove-Module -Name FormatDateTime -Force -ErrorAction Stop
         . "$PSScriptRoot\..\..\..\Production\ProductFeatures\StringFeatureModule\FormatDateTime.ps1"
-        # $formatter = Get-Variable -Name formatter -Scope local
         Test-Path -Path Variable:\formatter | Should -Be $true
         $formatter | Should -Be 'yyyy-MM-dd HH:mm:ss'
     }
 }
 
 Describe "FormatDatetime script function(s) implementation" -Tag "FormatDatetime" {
-    BeforeAll {
-        Remove-Module -Name FormatDateTime -Force -ErrorAction SilentlyContinue
-        . "$PSScriptRoot\..\..\..\Production\ProductFeatures\StringFeatureModule\FormatDateTime.ps1"
-    }
-
     Context "Get-FixedFormattedDateTimeNow" {
+        BeforeAll {
+            Remove-Module -Name FormatDateTime -Force -ErrorAction SilentlyContinue
+            if (Test-Path Alias:CorrectInput) {
+                Write-Information "Remove mocked dummy function"
+                Remove-Alias CorrectInput
+            }
+
+            Write-Information -MessageData "Dot-sourcing target test .ps1 script and its CorrectInput() function..." -InformationAction Continue
+            . "$PSScriptRoot\..\..\..\Production\ProductFeatures\StringFeatureModule\FormatDateTime.ps1"
+        }
         It "Should return formatted date time string" {
             $result = Get-FixedFormattedDateTimeNow
             $result | Should -Match '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$'
@@ -53,6 +72,10 @@ Describe "FormatDatetime script function(s) implementation" -Tag "FormatDatetime
     }
 
     Context "Get-FormattedDateTimeNow" {
+        BeforeAll {
+            Remove-Module -Name FormatDateTime -Force -ErrorAction SilentlyContinue
+            . "$PSScriptRoot\..\..\..\Production\ProductFeatures\StringFeatureModule\FormatDateTime.ps1"
+        }
         It "Should return formatted date time string" {
             $result = Get-FormattedDateTimeNow
             $result | Should -Match '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$'
@@ -64,7 +87,7 @@ Describe "FormatDatetime script function(s) implementation" -Tag "FormatDatetime
         }
     }
 
-    Context "Use Formatter specified at Import time" {
+    Context "Use valid Formatter specified at Import time" {
         BeforeAll {
             Remove-Module -Name FormatDateTime -Force -ErrorAction SilentlyContinue
             Import-Module -Name "$PSScriptRoot\..\..\..\Production\ProductFeatures\StringFeatureModule\FormatDateTime.ps1" -ArgumentList "HH:mm:ss" -Force -Verbose
@@ -87,6 +110,19 @@ Describe "FormatDatetime script function(s) implementation" -Tag "FormatDatetime
 
         AfterAll {
             Remove-Module -Name FormatDateTime -Force -ErrorAction SilentlyContinue
+        }
+    }
+
+    Context "Use invliad Formatter specified at import time" {
+        BeforeAll {
+            Remove-Module -Name FormatDateTime -Force -ErrorAction SilentlyContinue
+        }
+
+        It "Use wrong formatter string input: 'aabbcc' `nshould be correct back to default formatter: 'yyyy-MM-dd HH:mm:ss'" {
+            Import-Module -Name "$PSScriptRoot\..\..\..\Production\ProductFeatures\StringFeatureModule\FormatDateTime.ps1" -ArgumentList "aabbcc" -Force -Verbose
+
+            Test-Path -Path Variable:\formatter | Should -Be $true
+            $formatter | Should -Be 'yyyy-MM-dd HH:mm:ss' -Because "Invalid Formatter string should be correct back to default one"
         }
     }
 }
