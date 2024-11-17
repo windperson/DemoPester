@@ -3,6 +3,7 @@ BeforeAll {
     . (Resolve-Path $UtiltiyModulePath\ImportModule.ps1) -TestScriptPath $PSCommandPath -PsFileExtension 'ps1' -Verbose:$VerbosePreference
 }
 
+#region Module definition tests
 Describe "DevelopUtil Function API declaration" -Tag "ObjectUtils", "FunctionDeclaration" {
     BeforeDiscovery {
         [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Used in Pester Data driven tests')]
@@ -35,6 +36,7 @@ Describe "DevelopUtil Function API declaration" -Tag "ObjectUtils", "FunctionDec
         VerifyApiDefinition -Name $Name -CommandType $CommandType
     }
 }
+#endregion
 
 Describe "SafelyGetType()" -Tag "ObjectUtils" {
 

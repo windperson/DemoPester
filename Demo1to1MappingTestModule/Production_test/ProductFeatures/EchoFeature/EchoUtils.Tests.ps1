@@ -3,6 +3,7 @@ BeforeAll {
     . (Resolve-Path $UtiltiyModulePath\ImportModule.ps1) -TestScriptPath $PSCommandPath -PsFileExtension 'ps1' -Verbose:$VerbosePreference
 }
 
+#region Module definition tests
 Describe "Echo function API declaration" -Tag "EchoFeature", "FunctionDeclaration" {
     BeforeDiscovery {
         [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Used in Pester Data driven tests')]
@@ -42,6 +43,7 @@ Describe "Echo function API declaration" -Tag "EchoFeature", "FunctionDeclaratio
         VerifyApiDefinition -Name $Name -CommandType $CommandType
     }
 }
+#endregion
 
 Describe "Echo utility function feature" -Tag "EchoUtils" {
     Context "Show-Message" {

@@ -6,6 +6,7 @@ BeforeAll {
     . (Resolve-Path $UtiltiyModulePath\ImportModule.ps1) -TestScriptPath $PSCommandPath -Verbose:$VerbosePreference
 }
 
+#region Module definition tests
 Describe "Math function API declaration" -Tag "MathFeature", "FunctionDeclaration" {
     BeforeDiscovery {
         [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Used in Pester Data driven tests')]
@@ -55,7 +56,9 @@ Describe "Math function API declaration" -Tag "MathFeature", "FunctionDeclaratio
         VerifyApiDefinition -Name $Name -CommandType $CommandType
     }
 }
+#endregion
 
+#region Module methods tests
 Describe "Math function feature" -Tag "MathFeature" {
     Context "Invoke-Add" {
         It "Should return 3 when 1 and 2 are passed" {
@@ -97,3 +100,4 @@ Describe "Math function feature" -Tag "MathFormula" {
         }
     }
 }
+#endregion

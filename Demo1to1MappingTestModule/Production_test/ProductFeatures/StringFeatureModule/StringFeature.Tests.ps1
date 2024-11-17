@@ -3,6 +3,7 @@ BeforeAll {
     . (Resolve-Path $UtiltiyModulePath\ImportModule.ps1) -TestScriptPath $PSCommandPath -Verbose:$VerbosePreference
 }
 
+#region Module definition tests
 Describe "String function declaration" -Tag "StringFeature", "FunctionDeclaration" {
     BeforeDiscovery {
         [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Used in Pester Data driven tests')]
@@ -40,6 +41,7 @@ Describe "String function declaration" -Tag "StringFeature", "FunctionDeclaratio
     }
 
 }
+#endregion
 
 Describe "String function feature" -Tag "StringFeature" {
     Context "Invoke-Concatenate" {

@@ -1,4 +1,6 @@
 ﻿#Requires -Version 7
+
+#region Module definition tests
 Describe "String function declaration" -Tag "FormatDatetime", "FunctionDeclaration" {
     BeforeDiscovery {
         [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Used in Pester Data driven tests')]
@@ -52,6 +54,7 @@ Describe "String function declaration" -Tag "FormatDatetime", "FunctionDeclarati
         $formatter | Should -Be 'yyyy-MM-dd HH:mm:ss'
     }
 }
+#endregion
 
 Describe "FormatDatetime script function(s) implementation" -Tag "FormatDatetime" {
     Context "Get-FixedFormattedDateTimeNow" {
