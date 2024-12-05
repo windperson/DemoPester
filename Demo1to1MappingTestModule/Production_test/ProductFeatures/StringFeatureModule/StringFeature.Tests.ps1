@@ -1,3 +1,7 @@
+#region Script Requirement settings
+#Requires -Version 7
+#Requires -Module @{ ModuleName='Pester'; ModuleVersion="5.6.1"}
+#endregion
 BeforeAll {
     $UtiltiyModulePath = "$PSScriptRoot\..\..\"
     . (Resolve-Path $UtiltiyModulePath\ImportModule.ps1) -TestScriptPath $PSCommandPath -Verbose:$VerbosePreference

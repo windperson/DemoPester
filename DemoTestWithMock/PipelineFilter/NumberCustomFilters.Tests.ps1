@@ -1,7 +1,12 @@
-﻿Describe "Test Number filters" {
+﻿#region Script Requirement settings
+#Requires -Version 7
+#Requires -Module @{ ModuleName='Pester'; ModuleVersion="5.6.1"}
+#endregion
+
+Describe "Test Number filters" {
     BeforeAll {
         Set-Variable -Name "TestNumbers" -Option Constant -Value (1..20)
-        Import-Module "$PSScriptRoot\MyCustomFilters.psm1" -Force
+        Import-Module "$PSScriptRoot\NumberCustomFilters.psm1" -Force
     }
 
     It "IsOddNumber filter" {
@@ -25,12 +30,13 @@
 Describe "Test IsSmallerThen/IsLargerThen filter" {
     BeforeAll {
         Set-Variable -Name "SourcetNumbers" -Option Constant -Value (1..20)
-        Import-Module "$PSScriptRoot\MyCustomFilters.psm1" -Force
+        Import-Module "$PSScriptRoot\NumberCustomFilters.psm1" -Force
     }
 
     It "IsSmallerThen filter Should return values smaller than or equal to 10 when UpLimit is 10" {
         $expect = 1..10
         $result = $SourcetNumbers | IsSmallerThen -UpLimit 10
+        # Demo collection assertion
         $result | Should -BeExactly $expect
     }
 
@@ -41,10 +47,10 @@ Describe "Test IsSmallerThen/IsLargerThen filter" {
     }
 }
 
-Describe "Test IsInRange filter"{
+Describe "Test IsInRange filter" {
     BeforeAll {
         Set-Variable -Name "SourcetNumbers" -Option Constant -Value (1..20)
-        Import-Module "$PSScriptRoot\MyCustomFilters.psm1" -Force
+        Import-Module "$PSScriptRoot\NumberCustomFilters.psm1" -Force
     }
 
     It "Should return 10, 11, 12, 13, 14, 15 when set LowerLimt=10, UpperLimit=15" {

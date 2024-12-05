@@ -1,3 +1,8 @@
+#region Script Requirement settings
+#Requires -Version 7
+#Requires -Module @{ ModuleName='Pester'; ModuleVersion="5.6.1"}
+#endregion
+
 BeforeAll {
     Set-Variable -Name TestFilePath -Value "TestDrive:\TestOutput" -Option Constant
     Set-Variable -Name TestFileName -Value "Directory.Build.props" -Option Constant
@@ -40,7 +45,7 @@ Describe "CreateDirectoryBuildProps.ps1" {
             $ActualContent | Should -BeExactly $ExpectedContent
         }
 
-        $actualContent = (Get-Content -Path $targetFilePath -Raw) 
+        $actualContent = (Get-Content -Path $targetFilePath -Raw)
         CompareFileContent -ActualContent $actualContent -ExpectedContent $expectedContent
     }
 
@@ -48,7 +53,7 @@ Describe "CreateDirectoryBuildProps.ps1" {
         # Simulate a scenario where the file cannot be created
         $invalidFilePath = [System.IO.Path]::GetInvalidPathChars() | ForEach-Object { "TestDrive:\Test$_" } | Get-Random
         { . "$PSScriptRoot\CreateDirectoryBuildProps.ps1" -FilePath $invalidFilePath -FileName $TestFileName } |`
-            Should -Throw 
+            Should -Throw
     }
 
     It "Should handle different file paths and names" {

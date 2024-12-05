@@ -1,4 +1,8 @@
-﻿#Requires -Version 7
+﻿#region Script Requirement settings
+#Requires -Version 7
+#Requires -Module @{ ModuleName='Pester'; ModuleVersion="5.6.1"}
+#endregion
+
 Describe "MyFunction" {
     BeforeAll {
         Import-Module "$PSScriptRoot/MyScript.psm1" -Verbose -Force

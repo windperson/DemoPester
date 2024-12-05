@@ -1,3 +1,8 @@
+#region Script Requirement settings
+#Requires -Version 7
+#Requires -Module @{ ModuleName='Pester'; ModuleVersion="5.6.1"}
+#endregion
+
 BeforeAll {
     $targetModuleFile = Join-Path -Path $PSScriptRoot -ChildPath "CheckNetworkDrive.psm1"
     Import-Module $targetModuleFile -Force -Verbose

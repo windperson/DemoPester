@@ -1,3 +1,8 @@
+#region Script Requirement settings
+#Requires -Version 7
+#Requires -Module @{ ModuleName='Pester'; ModuleVersion="5.6.1"}
+#endregion
+
 BeforeAll {
     $targetModuleFile = Join-Path -Path $PSScriptRoot -ChildPath "MyModule.psm1"
     Import-Module $targetModuleFile -Force -Verbose
@@ -7,6 +12,7 @@ Describe "Get-Something" {
     Context "verify module has defined functions" {
         BeforeAll {
             # note: this is for demo, actually you can put this in following test case block.
+            [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '')]
             $moduleFunctions = (Get-Module MyModule).ExportedFunctions.Keys
         }
         It "Should have a function named Get-Something" {

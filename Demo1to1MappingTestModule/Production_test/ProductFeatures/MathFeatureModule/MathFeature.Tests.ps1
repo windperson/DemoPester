@@ -1,5 +1,14 @@
-[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidGlobalVars', '', Scope='Function')]
+#region Script Requirement settings
+#Requires -Version 7
+#Requires -Module @{ ModuleName='Pester'; ModuleVersion="5.6.1"}
+#endregion
+
+#region Analyzer settings
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidGlobalVars', '', Scope = 'Function')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseApprovedVerbs', '', Scope = 'Function')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidGlobalVars', '')]
 param()
+#endregion
 
 BeforeAll {
     $UtiltiyModulePath = "$PSScriptRoot\..\..\"
@@ -85,6 +94,34 @@ Describe "Math function feature" -Tag "MathFeature" {
     }
 }
 
+#region Pester Custom Assertion operator registration
+function Should-BeEqualWithPrecision ( [double] $ActualValue, [double] $ExpectValue, [uint] $Precision,
+    [switch] $Negate,
+    [string] $Because
+) {
+    $pass = [math]::Round($ActualValue, $Precision) -eq [math]::Round($ExpectValue, $Precision)
+    if ($Negate) {
+        $pass = -not $pass
+    }
+
+    if (-not $pass) {
+        if ($Negate) {
+            $failureMessage = "Expected '$ActualValue' to not be equal to $ExpectValue$(if($Because) { " because $Because"})."
+        }
+        else {
+            $failureMessage = "Expected '$ActualValue' to be equal to $ExpectValue$(if($Because) { " because $Because"})."
+        }
+    }
+
+    return [pscustomobject]@{
+        Succeeded      = $pass
+        FailureMessage = $failureMessage
+    }
+}
+
+Add-ShouldOperator -Name BeEqualWithPrecision -Test ${Function:Should-BeEqualWithPrecision}
+#endregion
+
 Describe "Math function feature" -Tag "MathFormula" {
     Context "Calculate-Circumference" {
         It "Should return 31.40 when input 5" {
@@ -95,8 +132,11 @@ Describe "Math function feature" -Tag "MathFormula" {
             $actual = Calculate-Circumference 5
             $actual | Should -BeOfType [double]
 
-            # TODO: write a custom assertion to compare the double values
+            # Because floating point number residue error, we need to compare only in certain precision
             [math]::Round($actual, 2) | Should -Be $([math]::Round($expect, 2))
+
+            # Use a custom assertion to compare the double values
+            $actual | Should -BeEqualWithPrecision -ExpectValue $expect -Precision 2
         }
     }
 }
