@@ -1,4 +1,8 @@
+#region Script Requirement settings
 #Requires -Version 7
+#Requires -Module @{ ModuleName='Pester'; ModuleVersion="5.6.1"}
+#endregion
+
 function VerifyApiDefinition {
     <#
     .SYNOPSIS
