@@ -1,9 +1,10 @@
 ﻿#Requires -Version 5.1
 using namespace System.Diagnostics.CodeAnalysis
 
-# NOTE: due to the Built-in Cmdlet Get-Command's bug, even if you export the class type explicitly, it will not be available in the Get-Command returned object's Parameter field.
-# $exportFullName = "DuplicateFileInfo"
-# [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators")::Add($exportFullName, [DuplicateFileInfo])
+# NOTE: This class cannot be used outside of this module, even if you use using module statemet;
+# https://github.com/PowerShell/PowerShell/issues/6652
+# Due to the Built-in Cmdlet Get-Command's bug, even if you export the class type explicitly, it will not be available in the Get-Command returned object's Parameter field.
+# [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators")::Add('DuplicateFileInfo', [DuplicateFileInfo])
 class DuplicateFileInfo {
     [System.IO.FileInfo]$FilePath1
     [System.IO.FileInfo]$FilePath2
