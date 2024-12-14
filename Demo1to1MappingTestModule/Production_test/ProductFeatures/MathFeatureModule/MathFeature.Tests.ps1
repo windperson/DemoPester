@@ -22,6 +22,7 @@ Describe "Math function API declaration" -Tag "MathFeature", "FunctionDeclaratio
         $ApiDefinition = @(
             @{
                 Name    = 'Invoke-Add'
+                CommandType = [System.Management.Automation.CommandTypes]::Function;
                 Inputs  = @{
                     a = [int]
                     b = [int]
@@ -31,6 +32,7 @@ Describe "Math function API declaration" -Tag "MathFeature", "FunctionDeclaratio
 
             @{
                 Name    = 'Invoke-Sub'
+                CommandType = [System.Management.Automation.CommandTypes]::Function;
                 Inputs  = @{
                     a = [int]
                     b = [int]
@@ -40,6 +42,7 @@ Describe "Math function API declaration" -Tag "MathFeature", "FunctionDeclaratio
 
             @{
                 Name    = 'Invoke-Mul'
+                CommandType = [System.Management.Automation.CommandTypes]::Function;
                 Inputs  = @{
                     a = [int]
                     b = [int]
@@ -49,6 +52,7 @@ Describe "Math function API declaration" -Tag "MathFeature", "FunctionDeclaratio
 
             @{
                 Name    = 'Invoke-Div'
+                CommandType = [System.Management.Automation.CommandTypes]::Function;
                 Inputs  = @{
                     a = [int]
                     b = [int]
