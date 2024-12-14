@@ -19,47 +19,46 @@ BeforeAll {
 Describe "Math function API declaration" -Tag "MathFeature", "FunctionDeclaration" {
     BeforeDiscovery {
         [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Used in Pester Data driven tests')]
+        #region API definitions
         $ApiDefinition = @(
             @{
-                Name    = 'Invoke-Add'
+                Name        = 'Invoke-Add'
                 CommandType = [System.Management.Automation.CommandTypes]::Function;
-                Inputs  = @{
+                Inputs      = @{
                     a = [int]
                     b = [int]
                 }
-                Outputs = @([int])
+                Outputs     = @([int])
             }
-
             @{
-                Name    = 'Invoke-Sub'
+                Name        = 'Invoke-Sub'
                 CommandType = [System.Management.Automation.CommandTypes]::Function;
-                Inputs  = @{
+                Inputs      = @{
                     a = [int]
                     b = [int]
                 }
-                Outputs = @([int])
+                Outputs     = @([int])
             }
-
             @{
-                Name    = 'Invoke-Mul'
+                Name        = 'Invoke-Mul'
                 CommandType = [System.Management.Automation.CommandTypes]::Function;
-                Inputs  = @{
+                Inputs      = @{
                     a = [int]
                     b = [int]
                 }
-                Outputs = @([int])
+                Outputs     = @([int])
             }
-
             @{
-                Name    = 'Invoke-Div'
+                Name        = 'Invoke-Div'
                 CommandType = [System.Management.Automation.CommandTypes]::Function;
-                Inputs  = @{
+                Inputs      = @{
                     a = [int]
                     b = [int]
                 }
-                Outputs = @([int])
+                Outputs     = @([int])
             }
         )
+        #endregion
     }
     BeforeAll {
         . (Resolve-Path $UtiltiyModulePath\VerifyPsDefApi.ps1)

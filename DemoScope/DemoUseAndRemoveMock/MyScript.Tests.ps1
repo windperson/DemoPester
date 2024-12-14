@@ -11,7 +11,9 @@ Describe "MyFunction" {
         InModuleScope MyScript {
             Mock -CommandName Get-CurrentTime -MockWith {
                 $output = "2024-11-14 08:00:00"
-                Write-Information -MessageData "In Mocked Get-CurrentTime(), output=$output" -InformationAction Continue
+                Write-Information -MessageData `
+                    "In Mocked Get-CurrentTime(), output=$output" `
+                    -InformationAction Continue
                 return $output
             }
 
