@@ -1,4 +1,7 @@
-﻿$customObj = [PSCustomObject]@{
+﻿### This script is for validating the compatibility of Windows PowerShell v5.1 with PowerShell v7.1 syntax,
+### You can tweak your PSScriptAnalyzer settings to make it show warnings for Windows PowerShell v5.1 incompatible syntax.
+
+$customObj = [PSCustomObject]@{
     Count     = 0
     Alphabets = @()
 }

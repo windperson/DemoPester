@@ -119,6 +119,7 @@ function Should-BeEqualWithPrecision ( [double] $ActualValue, [double] $ExpectVa
     }
 }
 
+# reigster the custom assertion operator so we can use it in following tests
 Add-ShouldOperator -Name BeEqualWithPrecision -Test ${Function:Should-BeEqualWithPrecision}
 #endregion
 
