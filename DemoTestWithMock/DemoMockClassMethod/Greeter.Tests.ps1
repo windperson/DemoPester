@@ -101,7 +101,8 @@ Describe "Test Greeter class methods with mocking" {
         $greeter.Greeting = "Hi"
         $greeter.Name = "Pester"
 
-        # Mock the GetCurrentTime method calling Get-Date implementation
+        # Pester cannot mock class methods directly, so only we can do is inspect the internal implementation of the class.
+        # Mock the Get-Date cmdlet implementation since GetCurrentTime method calling it internally.
         Mock -CommandName Get-Date -MockWith { return "MockedTime" }
 
         # Act
